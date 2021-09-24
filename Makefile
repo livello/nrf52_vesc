@@ -16,7 +16,7 @@ VERBOSE=1
 CFLAGS += $(build_args)
 
 # Path to the NRF52 SDK. Change if needed.
-SDK_ROOT := /home/benjamin/Dokument/nrf52/nRF5_SDK_15.3.0_59ac345
+SDK_ROOT := /home/livello/EmbeddedArm/nrf5_sdk/nRF5_SDK_15.3.0_59ac345
 
 TARGET_PATH := $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 
@@ -115,7 +115,8 @@ SRC_FILES += \
   packet.c \
   i2c_bb.c \
   sdk_mod/nrf_esb.c \
-  esb_timeslot.c
+  esb_timeslot.c \
+  gear_drive.c
 
 # Include folders common to all targets
 INC_FOLDERS += \

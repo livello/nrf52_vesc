@@ -39,6 +39,7 @@
 #include "nrf_pwr_mgmt.h"
 #include "bsp_btn_ble.h"
 #include "nrf_delay.h"
+#include "gear_drive.h"
 
 #if defined (UART_PRESENT)
 #include "nrf_uart.h"
@@ -121,10 +122,10 @@
 
 #ifdef NRF52840_XXAA
 #if MODULE_BUILTIN
-#define UART_RX							26
-#define UART_TX							25
+#define UART_RX							6
+#define UART_TX							7
 #define UART_TX_DISABLED				28
-#define LED_PIN							27
+#define LED_PIN							24
 #elif defined(MODULE_RD2)
 #define UART_RX							11
 #define UART_TX							12
@@ -732,6 +733,7 @@ int main(void) {
 	advertising_init();
 	conn_params_init();
 
+    gear_init();
 	(void)set_enabled;
 
 	packet_init(uart_send_buffer, process_packet_vesc, PACKET_VESC);
