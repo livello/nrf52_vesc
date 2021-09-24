@@ -53,16 +53,28 @@ struct transition gear_state_transitions[] = {
 
 enum gear_state_codes gear_cur_state;
 uint32_t gear_drive_time_stop = 0;
+uint32_t new_state_count=0,curr_button_state=0 ;
+
+uint32_t get_button_state(){
+    uint32_t next_button_state = nrf_gpio_pin_read(GEAR_BUTTON);
+    if(curr_button_state!=next_button_state)
+        new_state_count++;
+    else
+        new_state_count=0;
+    if(new_state_count > GEAR_SAME_STATE_COUNT_FILER)
+        curr_button_state=next_button_state;
+    return curr_button_state;
+}
 
 enum ret_codes gear_waiting_low(void) {
-    if (nrf_gpio_pin_read(GEAR_BUTTON) == 0)
+    if (get_button_state() == 0)
         return repeat;
     gear_drive_time_stop = now_millis + GEAR_DRIVE_TIMEOUT;
     return done;
 }
 
 enum ret_codes gear_waiting_high(void) {
-    if (nrf_gpio_pin_read(GEAR_BUTTON))
+    if (get_button_state())
         return repeat;
     gear_drive_time_stop = now_millis + GEAR_DRIVE_TIMEOUT;
     return done;
@@ -139,6 +151,7 @@ void gear_init(void) {
     nrf_gpio_pin_write(LED_RED, 1);
 
     nrf_gpio_cfg_input(GEAR_BUTTON, NRF_GPIO_PIN_PULLUP);
+    curr_button_state = nrf_gpio_pin_read(GEAR_BUTTON);
 
     nrf_gpio_cfg_output(GEAR_IN_B);
     nrf_gpio_pin_write(GEAR_IN_B, 0);

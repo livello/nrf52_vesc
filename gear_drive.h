@@ -5,6 +5,8 @@
 #ifndef GEAR_DRIVE_H_
 #define GEAR_DRIVE_H_
 
+#define GEAR_SAME_STATE_COUNT_FILER 20
+
 enum ret_codes gear_falling(void);
 enum ret_codes gear_rising(void);
 void gear_drive_rise();
